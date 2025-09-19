@@ -1,0 +1,12 @@
+let inputNumber1 = 1;
+let factorial1 = 1;
+console.log("for input",inputNumber1,"factorial is",factorial1);
+let inputNumber2 = 2;
+let factorial2 = 2 * 1;
+console.log("for input",inputNumber2,"factorial is",factorial2);
+const inputNumber3 = 3;
+let factorial3 = 3 * (2 * 1);
+console.log("for input",inputNumber3,"factorial is",factorial3);
+const inputNumber4 = 4;
+let factorial4 = 4 * (3 * 2 * 1);
+console.log("for input",inputNumber4,"factorial is",factorial4);
