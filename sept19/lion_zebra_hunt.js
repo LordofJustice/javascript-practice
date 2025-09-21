@@ -1,10 +1,10 @@
-const lionZebraloc = "L Z"
+const lionZebraloc = "L   Z  L"
 const totalFieldLength = lionZebraloc.length
 let lastFindAnimal = "" ;
 let lastFindAnimalLocation = 0;
 let wasLion = false;
 let wasZebra = false;
-let distance = totalFieldLength;
+let minimumDistance = totalFieldLength;
 
 for (let count = 0 ;count < totalFieldLength ;count++){
     let findAnimal = lionZebraloc[count];
@@ -15,7 +15,10 @@ for (let count = 0 ;count < totalFieldLength ;count++){
             wasZebra = true;           
         }
         if (lastFindAnimal !== "" && lastFindAnimal !== findAnimal){
-            distance = count - lastFindAnimalLocation - 1;
+            let distance = count - lastFindAnimalLocation - 1;
+            if (distance < minimumDistance){
+                minimumDistance = distance;
+            }
         }
         lastFindAnimal = findAnimal;
         lastFindAnimalLocation = count;       
@@ -24,6 +27,5 @@ for (let count = 0 ;count < totalFieldLength ;count++){
 if (!(wasLion && wasZebra)){
     console.log("No Hunting Happened", -1 );
 } else {
-    console.log("Lions will hunt the Zebra and minimum distanse is :" , distance );
-    
+    console.log("Lions will hunt the Zebra and minimum distanse is :" , minimumDistance );    
 }
