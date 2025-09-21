@@ -10,6 +10,10 @@ for (let count = 0 ;count < totalFieldLength ;count++){
             console.log("Hey! I am Lion. My location is :",count);
         } else {
             console.log("Hey! I am Zebra. Don't tell Lions that i am here:",count);
+        } 
+        if (lastFindAnimal !== "" && lastFindAnimal !== findAnimal){
+            let distance = count - lastFindAnimalLocation - 1;
+            console.log("Distance between two currently found animal :",distance);
         }
         lastFindAnimal = findAnimal;
         lastFindAnimalLocation = count;
