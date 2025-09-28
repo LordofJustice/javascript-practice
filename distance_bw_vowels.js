@@ -1,26 +1,33 @@
-function vowelDistance(string){
+function vowelFinder(string, index) {
   const vowels = 'aeiou';
+  for (let vowelIndex = 0; vowelIndex < vowels.length; vowelIndex++) {
+
+      if (string[index] === vowels[vowelIndex]) {
+        return true;       
+      }
+  }
+
+  return false;
+}
+
+function vowelDistance(string){
   let minimumDist = string.length;
   let lastSeenVowel = -1;
   for (let index = 0; index < string.length; index++) {
-    const stringLetter = string[index];
-    for (let vowelIndex = 0; vowelIndex < vowels.length; vowelIndex++) {
-      const vowelLetter = vowels[vowelIndex];
+    const isVowel = vowelFinder(string, index);
+    if (isVowel) {
 
-      if (stringLetter === vowelLetter) {
-
-        if (lastSeenVowel >= 0) {
-          const distance = index - lastSeenVowel;
+      if (lastSeenVowel > -1) {
+        const distance = index - lastSeenVowel;
 
           if (distance < minimumDist) {
             minimumDist = distance;
           }
 
-        }
-
-        lastSeenVowel = index;
       }
-    }
+
+      lastSeenVowel = index;
+    }   
   }
 
   return minimumDist === string.length ? -1 : minimumDist;
