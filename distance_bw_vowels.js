@@ -1,5 +1,29 @@
 function vowelDistance(string){
-  return 2;
+  const vowels = 'aeiou';
+  let minimumDist = string.length;
+  let lastSeenVowel = -1;
+  for (let index = 0; index < string.length; index++) {
+    const stringLetter = string[index];
+    for (let vowelIndex = 0; vowelIndex < vowels.length; vowelIndex++) {
+      const vowelLetter = vowels[vowelIndex];
+
+      if (stringLetter === vowelLetter) {
+
+        if (lastSeenVowel >= 0) {
+          const distance = index - lastSeenVowel;
+
+          if (distance < minimumDist) {
+            minimumDist = distance;
+          }
+
+        }
+
+        lastSeenVowel = index;
+      }
+    }
+  }
+
+  return minimumDist === string.length ? -1 : minimumDist;
 }
 
 function displayResult(string, actual, expected) {
@@ -22,7 +46,17 @@ function testVowelDistance(string, expected) {
 }
 
 function testAll() {
-  testVowelDistance("abo", 2);
+  testVowelDistance("apple", 4);
+  testVowelDistance("mango", 3);
+  testVowelDistance("ape", 2);
+  testVowelDistance("singer", 3);
+  testVowelDistance("is it working", 3);
+  testVowelDistance("no", -1);
+  testVowelDistance("", -1);
+  testVowelDistance("how are", 2);
+  testVowelDistance("lol", -1);
+  testVowelDistance("ao", 1);
+  testVowelDistance("hurray", 3);
 }
 
 testAll();
