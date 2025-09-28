@@ -19,11 +19,7 @@ function vowelDistance(string){
 
       if (lastSeenVowel > -1) {
         const distance = index - lastSeenVowel;
-
-          if (distance < minimumDist) {
-            minimumDist = distance;
-          }
-
+        minimumDist = distance < minimumDist ? distance : minimumDist;
       }
 
       lastSeenVowel = index;
