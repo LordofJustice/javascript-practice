@@ -1,11 +1,9 @@
-const ticTacToe = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
-
 const player1 = prompt('User X Enter Your Name :');
 const palyer2 = prompt('User O Enter Your Name :');
 const players = [player1, palyer2];
 
-function isRepeatedInput(occupiedSpots, userInput) {
-  return occupiedSpots.includes(userInput);
+function isRepeating(playedMoves, userInput) {
+  return playedMoves.includes(userInput);
 }
 
 function isValid(userInput) {
@@ -13,15 +11,15 @@ function isValid(userInput) {
   return validInputs.includes(userInput);
 }
 
-function nonRepeatedInput(occupiedSpots, userInput, currentPlayer) {
-  if (isRepeatedInput(occupiedSpots, userInput)) {
-    console.log(`Sorry but Cordinate ${userInput} is already Occupied!\n`)
+function nonRepeatedInput(playedMoves, userInput, currentPlayer) {
+  if (isRepeating(playedMoves, userInput)) {
+    console.log(`Sorry but Cordinate [${userInput}] is already Occupied!\n`)
     userInput = prompt(`[${currentPlayer}] Enter your Cordinates Again :`);
-    return nonRepeatedInput(occupiedSpots, userInput, currentPlayer);
+    return nonRepeatedInput(playedMoves, userInput, currentPlayer);
   } else if (!isValid(userInput)) {
     console.log(`Sorry but Cordinate ${userInput} is NOT VALID!\n`)
     userInput = prompt(`[${currentPlayer}] Enter your Cordinates Again :`);
-    return nonRepeatedInput(occupiedSpots, userInput, currentPlayer);
+    return nonRepeatedInput(playedMoves, userInput, currentPlayer);
   } else {
     return userInput;
   }
@@ -34,77 +32,82 @@ function displayGame(gameArray) {
   const secondRow = gameArray[1].join(' | ');
   const thirdRow = gameArray[2].join(' | ');
   const gameLayout = [firstRow, secondRow, thirdRow];
-  return gameLayout.join('\n----------\n');
 
+  return gameLayout.join('\n-------------\n');
 }
 
 function includes(array1, array2) {
-  let elementFound = 0;
+  let matchFound = 0;
   for (let row = 0; row < array1.length; row++) {
+
     for (let column = 0; column < array2.length; column++) {
+
       if (array2.includes(array1[row][column])) {
-        elementFound++;
+        matchFound++;
       }
     }
-    if (elementFound === array1[0].length) {
+
+    if (matchFound === array1[0].length) {
       return true;
     } else {
-      elementFound = 0;
+      matchFound = 0;
     }
   }
   return false;
 }
 
-function playerOccupiedSpot(allOccupiedSpot, playerNo) {
-  const occupiedSpotsByPlayer = [];
-  for (let index = playerNo; index < allOccupiedSpot.length; index += 2) {
-    occupiedSpotsByPlayer.push(allOccupiedSpot[index]);
+function playerMovesList(palyedMoves, playerNo) {
+  const playerMoves = [];
+  for (let index = playerNo; index < palyedMoves.length; index += 2) {
+    playerMoves.push(palyedMoves[index]);
   }
-  return occupiedSpotsByPlayer;
+  return playerMoves;
 }
 
-function didWin(occupiedSpots) {
-  const allWinningCordinates = [['11', '12', '13']
-    , ['21', '22', '23'], ['31', '32', '33'], ['11', '21', '31'],
-  ['12', '22', '32'], ['13', '23', '33'], ['11', '22', '33'], ['13', '22', '31']
+function didWin(playedMoves) {
+  const winSets = [['11', '12', '13'], ['21', '22', '23'], ['31', '32', '33'],
+  ['11', '21', '31'], ['12', '22', '32'], ['13', '23', '33'],
+  ['11', '22', '33'], ['13', '22', '31']
   ];
-  const XplrOccSpots = playerOccupiedSpot(occupiedSpots, 0);
-  const OplrOccSpots = playerOccupiedSpot(occupiedSpots, 1);
-  return includes(allWinningCordinates, XplrOccSpots) ||
-   includes(allWinningCordinates, OplrOccSpots);
+  const xMoves = playerMovesList(playedMoves, 0);
+  const oMoves = playerMovesList(playedMoves, 1);
+  return includes(winSets, xMoves) || includes(winSets, oMoves);
 }
 
 function playAgain() {
-  const wantToPlayAgain = confirm("\n want to play again!");
+  const wantToPlayAgain = confirm("\nDo 🫵 want to play again ?");
   if (wantToPlayAgain) {
     playGame();
   }
 }
 
-function gameStart(gameArray, players, occupiedSpots = []) {
-  gameArray = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]];
+function userInput(playedMoves, currentPlayer) {
+  let userInput = prompt(`[${currentPlayer}] Enter your Cordinates like 11,21 :`);
+  return nonRepeatedInput(playedMoves, userInput, currentPlayer);
+}
+
+function gameStart(players, playedMoves = []) {
+  const gameArray = [["  ", "  ", "  "], ["  ", "  ", "  "], ["  ", "  ", "  "]];
   for (let index = 0; index < 9; index++) {
     const currentPlayer = players[index % 2];
-    let userInput = prompt(`[${currentPlayer}] Enter your Cordinates like 11,21 :`);
-    userInput = nonRepeatedInput(occupiedSpots, userInput, currentPlayer);
-    occupiedSpots.push(userInput);
-    const row = parseInt(userInput.at(0)) - 1;
-    const column = parseInt(userInput.at(1)) - 1;
-    const char = 'XO'[index % 2]
-    gameArray[row][column] = char;
-    const display = displayGame(gameArray);
-    console.log(display);
-    if (didWin(occupiedSpots)) {
+    const input = userInput(playedMoves, currentPlayer);
+    playedMoves.push(input);
+    const row = parseInt(input[0]) - 1;
+    const column = parseInt(input[1]) - 1;
+    gameArray[row][column] = '❌⭕️'[index % 2];
+    console.log(displayGame(gameArray));
+
+    if (didWin(playedMoves)) {
       console.log(`[${currentPlayer}] Won the Game 🙀🙀🙀`);
       playAgain();
     }
   }
-  console.log("[it's a Draw]\n");
+  console.log("\n[it's a Draw]\n");
   playAgain();
 }
 
 function playGame() {
-  gameStart(ticTacToe, players);
+  gameStart(players);
 }
 
 playGame();
