@@ -28,12 +28,12 @@ function nonRepeatedInput(playedMoves, userInput, currentPlayer) {
 function displayGame(gameArray) {
   console.clear();
 
-  const firstRow = gameArray[0].join(' | ');
-  const secondRow = gameArray[1].join(' | ');
-  const thirdRow = gameArray[2].join(' | ');
+  const firstRow = gameArray[0].join('');
+  const secondRow = gameArray[1].join('');
+  const thirdRow = gameArray[2].join('');
   const gameLayout = [firstRow, secondRow, thirdRow];
 
-  return gameLayout.join('\n-------------\n');
+  return gameLayout.join('\n');
 }
 
 function includes(array1, array2) {
@@ -78,6 +78,8 @@ function playAgain() {
   const wantToPlayAgain = confirm("\nDo 🫵 want to play again ?");
   if (wantToPlayAgain) {
     playGame();
+  } else {
+
   }
 }
 
@@ -87,23 +89,27 @@ function userInput(playedMoves, currentPlayer) {
 }
 
 function gameStart(players, playedMoves = []) {
-  const gameArray = [["  ", "  ", "  "], ["  ", "  ", "  "], ["  ", "  ", "  "]];
-  for (let index = 0; index < 9; index++) {
-    const currentPlayer = players[index % 2];
+  const gameArray = [["⬜️", "⬜️", "⬜️"], ["⬜️", "⬜️", "⬜️"], ["⬜️", "⬜️", "⬜️"]];
+  let chance = 0;
+  while (chance < 9 && !didWin(playedMoves)) {
+    const currentPlayer = players[chance % 2];
     const input = userInput(playedMoves, currentPlayer);
     playedMoves.push(input);
     const row = parseInt(input[0]) - 1;
     const column = parseInt(input[1]) - 1;
-    gameArray[row][column] = '❌⭕️'[index % 2];
+    gameArray[row][column] = '❌⭕️'[chance % 2];
     console.log(displayGame(gameArray));
-
     if (didWin(playedMoves)) {
       console.log(`[${currentPlayer}] Won the Game 🙀🙀🙀`);
       playAgain();
     }
+    chance++;
   }
-  console.log("\n[it's a Draw]\n");
-  playAgain();
+  if (chance === 9) {
+    console.log("\n[it's a Draw]\n");
+    playAgain();
+  }
+  
 }
 
 function playGame() {
