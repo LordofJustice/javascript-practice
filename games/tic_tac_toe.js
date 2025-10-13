@@ -105,7 +105,7 @@ function gameStart(players, playedMoves = []) {
     }
     chance++;
   }
-  if (chance === 9) {
+  if (chance === 9 && !didWin(playedMoves)) {
     console.log("\n[it's a Draw]\n");
     playAgain();
   }
