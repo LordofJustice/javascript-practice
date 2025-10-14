@@ -9,13 +9,48 @@ function randomNumberInRange(start, end) {
   }
 }
 
-function botMove(playedMoves) {
+function randomMove(playedMoves) {
   const possibleMoves = ['11', '12', '13', '21', '22', '23', '31', '32', '33'];
-  const _botMove = possibleMoves[randomNumberInRange(0, 8)];
-  if (playedMoves.includes(_botMove)) {
-    return botMove(playedMoves);
+  const botMove = possibleMoves[randomNumberInRange(0, 8)];
+  if (playedMoves.includes(botMove)) {
+    return randomMove(playedMoves);
   }
-  return _botMove;
+  return botMove;
+}
+
+
+function BOTMove(playedMoves) {
+  const playerMoves = playerMovesList(playedMoves, 0);
+  const botMoves = playerMovesList(playedMoves, 1);
+  const winSets = [['11', '12', '13'], ['21', '22', '23'], ['31', '32', '33'],
+  ['11', '21', '31'], ['12', '22', '32'], ['13', '23', '33'],
+  ['11', '22', '33'], ['13', '22', '31']
+  ];
+  const _botMove = opponentWinningCoordinate(winSets, playerMoves, botMoves);
+  if (_botMove !== '') {
+    return _botMove;
+  }
+  return randomMove(playedMoves);
+}
+
+function opponentWinningCoordinate(winningMoves, playerMoves, botMoves) {
+  let matchFound = 0;
+  let nextMove = "";
+  for (let row = 0; row < winningMoves.length; row++) {
+
+    for (let column = 0; column < 3; column++) {
+
+      if (playerMoves.includes(winningMoves[row][column])) {
+        matchFound++;
+      } else {
+        nextMove = winningMoves[row][column];
+      }
+      if ((matchFound === 2) && (column === 2) && !(botMoves.includes(nextMove))) return nextMove;
+    }
+    matchFound = 0;
+    nextMove = '';
+  }
+  return '';
 }
 
 const player1 = prompt('User X Enter Your Name :');
@@ -71,7 +106,6 @@ function includes(array1, array2) {
         matchFound++;
       }
     }
-
     if (matchFound === array1[0].length) {
       return true;
     } else {
@@ -110,7 +144,7 @@ function playAgain() {
 
 function userInput(turn, playedMoves, currentPlayer) {
   if (turn % 2 !== 0) {
-    return botMove(playedMoves);
+    return BOTMove(playedMoves);
   }
   const userInput = prompt(`[${currentPlayer}] Enter your Cordinates :`);
   return nonRepeatedInput(playedMoves, userInput, currentPlayer);
@@ -137,7 +171,6 @@ function gameStart(players, playedMoves = []) {
     console.log("\n[it's a Draw]\n");
     playAgain();
   }
-  
 }
 
 function playGame() {
