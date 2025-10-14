@@ -1,5 +1,10 @@
 const player1 = prompt('User X Enter Your Name :');
 const palyer2 = prompt('User O Enter Your Name :');
+console.log(`
+  Enter Your Input like 12 or 23
+  in this input 12 :
+  1 is Row
+  2 is Column`);
 const players = [player1, palyer2];
 
 function isRepeating(playedMoves, userInput) {
@@ -27,13 +32,14 @@ function nonRepeatedInput(playedMoves, userInput, currentPlayer) {
 
 function displayGame(gameArray) {
   console.clear();
-
-  const firstRow = gameArray[0].join('');
-  const secondRow = gameArray[1].join('');
-  const thirdRow = gameArray[2].join('');
+  console.log('\t⸻⸻⸻⸻')
+  const firstRow = '\t ' + gameArray[0].join('');
+  const secondRow = '\t ' + gameArray[1].join('');
+  const thirdRow = '\t ' + gameArray[2].join('');
   const gameLayout = [firstRow, secondRow, thirdRow];
-
-  return gameLayout.join('\n');
+  
+  console.log(gameLayout.join('\n'));
+  console.log('\t⸻⸻⸻⸻')
 }
 
 function includes(array1, array2) {
@@ -75,7 +81,7 @@ function didWin(playedMoves) {
 }
 
 function playAgain() {
-  const wantToPlayAgain = confirm("\nDo 🫵 want to play again ?");
+  const wantToPlayAgain = confirm("\nDo you want to play again ?");
   if (wantToPlayAgain) {
     playGame();
   } else {
@@ -84,7 +90,7 @@ function playAgain() {
 }
 
 function userInput(playedMoves, currentPlayer) {
-  let userInput = prompt(`[${currentPlayer}] Enter your Cordinates like 11,21 :`);
+  const userInput = prompt(`[${currentPlayer}] Enter your Cordinates :`);
   return nonRepeatedInput(playedMoves, userInput, currentPlayer);
 }
 
@@ -98,7 +104,7 @@ function gameStart(players, playedMoves = []) {
     const row = parseInt(input[0]) - 1;
     const column = parseInt(input[1]) - 1;
     gameArray[row][column] = '❌⭕️'[chance % 2];
-    console.log(displayGame(gameArray));
+    displayGame(gameArray);
     if (didWin(playedMoves)) {
       console.log(`[${currentPlayer}] Won the Game 🙀🙀🙀`);
       playAgain();
