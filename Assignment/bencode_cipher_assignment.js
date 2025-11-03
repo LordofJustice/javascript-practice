@@ -14,10 +14,10 @@ function encodeArray(array, encodedArray = 'l') {
   return encodedArray + "e";
 }
 
-function encode(data){
-  const typeOfData = typeof(data);
+function encode(data) {
+  const typeOfData = typeof (data);
 
-  switch (typeOfData){
+  switch (typeOfData) {
     case "number":
       return encodeNumber(data);
     case "string":
@@ -28,7 +28,16 @@ function encode(data){
 }
 
 function decode(bencodedString) {
-  return 123;
+  if (bencodedString[0] === "i") {
+    const lastIndex = bencodedString.indexOf("e");
+    const integer = parseInt(bencodedString.slice(1, lastIndex))
+    return integer;
+  }
+  if (typeof (bencodedString[0]) === "string") {
+    const startIndex = bencodedString.indexOf(":");
+    const string = bencodedString.slice(startIndex + 1, bencodedString.length);
+    return string;
+  }
 }
 
 function composeMessage(description, input, expected, actual) {
@@ -43,9 +52,9 @@ function composeMessage(description, input, expected, actual) {
   return message;
 }
 
-function displayResult(description, data, expected, actual) {
+function displayResult(description, input, expected, actual) {
   const mark = expected === actual ? "✅" : "❌";
-  const message = composeMessage(description, data, expected, actual);
+  const message = composeMessage(description, input, expected, actual);
 
   if (expected === actual) {
     console.log(`[${mark}][${description}]`);
@@ -77,9 +86,9 @@ function testDecodes(description, bencodedString, expected) {
 }
 
 function testAllDecodes() {
-  testDecodes("integers", `"i123e"`, `123`);
-  testDecodes("string", `"5:hello"`, `"hello"`);
-  testDecodes("empty string", `"0:"`, `""`);
+  testDecodes("integers", "i123e", `123`);
+  testDecodes("string", "5:hello", "hello");
+  testDecodes("empty string", "0:", "");
 }
 
 function main() {
