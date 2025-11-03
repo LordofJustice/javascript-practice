@@ -64,7 +64,8 @@ function testAllEncode() {
   testEncode("empty string", 0, "i0e");
   testEncode("special ch string", "special!@#$chars", "16:special!@#$chars");
   testEncode("simple array", [123, "hello"], "li123e5:helloe");
-  testEncode("simple array", [123, "hello"], "li123e5:helloe");
+  testEncode("empty array", [], "le");
+  testEncode("nested array", [[123, 'hello'], 123, 'hello'], "lli123e5:helloei123e5:helloe");
 }
 
 testAllEncode();
