@@ -27,12 +27,16 @@ function encode(data){
   }
 }
 
-function composeMessage(description, data, expected, actual) {
+function decode(bencodedString) {
+  return 123;
+}
+
+function composeMessage(description, input, expected, actual) {
   let message = ``;
   message += "-".repeat(description.length + 6).concat("\n");
   message += `[❌][${description}]\n\n`;
-  message += `[Input :  ${data}]\n`;
-  message += `[Encode :  ${actual}]\n`;
+  message += `[Input :  ${input}]\n`;
+  message += `[Output :  ${actual}]\n`;
   message += `[Expected   :  ${expected}]\n`;
   message += `[Actual     :  ${actual}]\n`;
   message += "-".repeat(description.length + 6).concat("\n");
@@ -60,11 +64,29 @@ function testAllEncode() {
   testEncode("negative integers", -42, "i-42e");
   testEncode("zero", 0, "i0e");
   testEncode("simple string", "hello world", "11:hello world");
-  testEncode("empty string", 0, "i0e");
+  testEncode("empty string", "", "0:");
   testEncode("special ch string", "special!@#$chars", "16:special!@#$chars");
   testEncode("simple array", [123, "hello"], "li123e5:helloe");
   testEncode("empty array", [], "le");
   testEncode("nested array", [[123, 'hello'], 123, 'hello'], "lli123e5:helloei123e5:helloe");
 }
 
-testAllEncode();
+function testDecodes(description, bencodedString, expected) {
+  const actual = `${decode(bencodedString)}`;
+  displayResult(description, bencodedString, expected, actual);
+}
+
+function testAllDecodes() {
+  testDecodes("integers", `"i123e"`, `123`);
+  testDecodes("string", `"5:hello"`, `"hello"`);
+  testDecodes("empty string", `"0:"`, `""`);
+}
+
+function main() {
+  console.log("\n\n Encodes \n\n")
+  testAllEncode();
+  console.log("\n\n Decodes \n\n")
+  testAllDecodes();
+}
+
+main();
