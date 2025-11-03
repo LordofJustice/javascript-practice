@@ -8,8 +8,7 @@ function encodeString(string) {
 
 function encodeArray(array, encodedArray = 'l') {
   for (let index = 0; index < array.length; index++) {
-    const element = array[index];
-    const encodedElement = encode(element);
+    const encodedElement = encode(array[index]);
     encodedArray += encodedElement;
   }
   return encodedArray + "e";
@@ -17,6 +16,7 @@ function encodeArray(array, encodedArray = 'l') {
 
 function encode(data){
   const typeOfData = typeof(data);
+
   switch (typeOfData){
     case "number":
       return encodeNumber(data);
@@ -25,7 +25,6 @@ function encode(data){
     case "object":
       return encodeArray(data);
   }
-
 }
 
 function composeMessage(description, data, expected, actual) {
