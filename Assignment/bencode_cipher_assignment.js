@@ -3,10 +3,17 @@ function encodeNumber(number) {
 }
 
 function encodeString(string) {
-  const stringLength = string.length;
-  return `${stringLength}:${string}`;
+  return `${string.length}:${string}`;
 }
 
+function encodeArray(array, encodedArray = 'l') {
+  for (let index = 0; index < array.length; index++) {
+    const element = array[index];
+    const encodedElement = encode(element);
+    encodedArray += encodedElement;
+  }
+  return encodedArray + "e";
+}
 
 function encode(data){
   const typeOfData = typeof(data);
@@ -16,7 +23,7 @@ function encode(data){
     case "string":
       return encodeString(data);
     case "object":
-      return 
+      return encodeArray(data);
   }
 
 }
@@ -56,6 +63,8 @@ function testAllEncode() {
   testEncode("simple string", "hello world", "11:hello world");
   testEncode("empty string", 0, "i0e");
   testEncode("special ch string", "special!@#$chars", "16:special!@#$chars");
+  testEncode("simple array", [123, "hello"], "li123e5:helloe");
+  testEncode("simple array", [123, "hello"], "li123e5:helloe");
 }
 
 testAllEncode();
