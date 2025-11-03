@@ -1,5 +1,23 @@
+function encodeNumber(number) {
+  return `i${number}e`;
+}
+
+function encodeString(string) {
+  const stringLength = string.length;
+  return `${stringLength}:${string}`;
+}
+
+
 function encode(data){
-  return "i123e"
+  const typeOfData = typeof(data);
+  switch (typeOfData){
+    case "number":
+      return encodeNumber(data);
+    case "string":
+      return encodeString(data);
+    case "object":
+      return 
+  }
 
 }
 
@@ -33,6 +51,11 @@ function testEncode(description, data, expected) {
 
 function testAllEncode() {
   testEncode("integers", 123, "i123e");
+  testEncode("negative integers", -42, "i-42e");
+  testEncode("zero", 0, "i0e");
+  testEncode("simple string", "hello world", "11:hello world");
+  testEncode("empty string", 0, "i0e");
+  testEncode("special ch string", "special!@#$chars", "16:special!@#$chars");
 }
 
 testAllEncode();
