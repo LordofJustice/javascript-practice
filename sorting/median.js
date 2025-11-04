@@ -17,10 +17,6 @@ function sortOf(data) {
   return sortedData;
 }
 
-function isOdd(number) {
-  return number % 2 !== 0;
-}
-
 function median(data) {
   const shortedData = sortOf(data);
   return shortedData[Math.floor(data.length / 2)];
