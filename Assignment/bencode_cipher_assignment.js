@@ -1,17 +1,12 @@
-function encodeNumber(number) {
-  return `i${number}e`;
-}
+const LIST_START = "l";
+const LIST_END = "e";
 
-function encodeString(string) {
-  return `${string.length}:${string}`;
-}
-
-function encodeArray(array, encodedArray = 'l') {
+function encodeArray(array, encodedArray = LIST_START) {
   for (let index = 0; index < array.length; index++) {
     const encodedElement = encode(array[index]);
     encodedArray += encodedElement;
   }
-  return encodedArray + "e";
+  return encodedArray + LIST_END;
 }
 
 function encode(data) {
@@ -19,24 +14,13 @@ function encode(data) {
 
   switch (typeOfData) {
     case "number":
-      return encodeNumber(data);
+      return `i${data}e`;
     case "string":
-      return encodeString(data);
+      return `${data.length}:${data}`;
     case "object":
       return encodeArray(data);
-  }
-}
-
-function decode(bencodedString) {
-  if (bencodedString[0] === "i") {
-    const lastIndex = bencodedString.indexOf("e");
-    const integer = parseInt(bencodedString.slice(1, lastIndex))
-    return integer;
-  }
-  if (typeof (bencodedString[0]) === "string") {
-    const startIndex = bencodedString.indexOf(":");
-    const string = bencodedString.slice(startIndex + 1, bencodedString.length);
-    return string;
+    default:
+      return "invalid";
   }
 }
 
@@ -80,22 +64,9 @@ function testAllEncode() {
   testEncode("nested array", [[123, 'hello'], 123, 'hello'], "lli123e5:helloei123e5:helloe");
 }
 
-function testDecodes(description, bencodedString, expected) {
-  const actual = `${decode(bencodedString)}`;
-  displayResult(description, bencodedString, expected, actual);
-}
-
-function testAllDecodes() {
-  testDecodes("integers", "i123e", `123`);
-  testDecodes("string", "5:hello", "hello");
-  testDecodes("empty string", "0:", "");
-}
-
 function main() {
   console.log("\n\n Encodes \n\n")
   testAllEncode();
-  console.log("\n\n Decodes \n\n")
-  testAllDecodes();
 }
 
 main();
