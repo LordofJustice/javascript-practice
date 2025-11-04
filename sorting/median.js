@@ -23,17 +23,8 @@ function isOdd(number) {
 
 function median(data) {
   const shortedData = sortOf(data);
-  if (isOdd(data.length)) {
-    const middleTermPos = ((data.length) - 1) / 2;
-    return shortedData[middleTermPos];
-  } else {
-    const firstMiddleTermPos = (data.length / 2) - 1;
-    const secondMiddleTermPos = (data.length / 2);
-    return (shortedData[firstMiddleTermPos] + shortedData[secondMiddleTermPos]) / 2;
-  }
+  return shortedData[Math.floor(data.length / 2)];
 }
 
 console.log(sortOf(data));
 console.log(median(data));
-
-
