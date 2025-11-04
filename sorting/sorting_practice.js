@@ -1,14 +1,18 @@
 let noOfItration = 0;
 
+function swap(array, x, y) {
+  const temp = array[x];
+  array[x] = array[y];
+  array[y] = temp;
+  return array;
+}
+
 function sortOf(data) {
   const shortedData = data.slice();
   for (let i = 0; i < shortedData.length; i++) {
     for (let j = i + 1; j < shortedData.length; j++) {
       if (shortedData[i] > shortedData[j]) {
-        const temp = shortedData[i];
-
-        shortedData[i] = shortedData[j];
-        shortedData[j] = temp;
+        swap(shortedData, i, j);
       }
       noOfItration++;
     }
@@ -36,4 +40,3 @@ function benchmark() {
 }
 
 benchmark();
-
