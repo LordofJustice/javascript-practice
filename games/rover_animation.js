@@ -7,9 +7,10 @@ import {
 
 const plateauSurface = "🌑";
 
-const plateau = prompt("Input Plateau Boundry[x y]:") || "20 20";
-const position = prompt("Input Initial Position[x y N]:") || "0 0 N";
-let instructions = prompt("input Instructions[LMR]:").toUpperCase() || "LR";
+const plateau = prompt("Input Plateau Boundry[x y]:") || "55 21";
+const position = prompt("Input Initial Position[x y N]:").toUpperCase() ||
+  "10 10 N";
+let instructions = "LLLL";
 
 const plateauArea = parsePlateau(plateau);
 const { xMax, yMax } = plateauArea;
@@ -20,10 +21,10 @@ const drawPlateau = (Array(yMax).fill(0)).map((x) =>
 );
 
 const pointer = {
-  E: "👽",
-  W: "👽",
-  N: "👽",
-  S: "👽",
+  E: "➡️ ",
+  W: "⬅️ ",
+  N: "⬆️ ",
+  S: "⬇️ ",
 };
 
 const panel = ({ x, y, direction }) => {
@@ -56,7 +57,7 @@ const plotPlatue = ({ x, y, direction }) => {
   drawPlateau[y][x] = `${plateauSurface}`;
   j++;
   if (j === instructions.length) {
-    instructions = prompt("Enter Next Instructions:").toUpperCase();
+    instructions = prompt("Enter Instructions:").toUpperCase();
     j = 0;
   }
 };
@@ -73,4 +74,4 @@ const b = setInterval(() => {
   } else {
     plotPlatue(currentPosition);
   }
-}, 100);
+}, 200);
