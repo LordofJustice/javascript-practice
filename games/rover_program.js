@@ -34,13 +34,6 @@ export const isRoverFallen = (coordinates, plateau) => {
   return x >= xMax || y >= yMax || x < xMin || y < yMin;
 };
 
-export const message = ({ x, y, direction, isFallen }) => {
-  if (isFallen) {
-    return `${x} ${y} ${direction} RIP`;
-  }
-  return `${x} ${y} ${direction}`;
-};
-
 export const parsePlateau = (plateau) => {
   const [xMax, yMax] = plateau.split(" ");
   return {
